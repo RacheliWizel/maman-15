@@ -49,8 +49,6 @@ def create_AES_key(user_public_key):
     encrypted_aes_key = cipher_rsa.encrypt(aes_key)
     return encrypted_aes_key
 
-def create_response(code, payload):
-    pass
 
 
 

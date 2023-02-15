@@ -19,7 +19,8 @@ def read(conn, mask):
     if data:
          print('echoing', repr(data), 'to', conn)
          request = Request(data)
-         request.handel_request()
+         response = request.handel_request()
+         conn.sendall(response)
     else:
          print('closing', conn )
          sel.unregister(conn)
