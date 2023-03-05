@@ -20,7 +20,8 @@ def read(conn, mask):
          print('echoing', repr(data), 'to', conn)
          request = Request(data)
          response = request.handel_request()
-         conn.sendall(response)
+         if response != 'no message':
+            conn.sendall(response)
     else:
          print('closing', conn )
          sel.unregister(conn)
@@ -28,6 +29,7 @@ def read(conn, mask):
 
 def main():
     port = helper.get_port()
+    helper.create_files_folder()
     helper.init_data_base()
     sock = socket.socket()
     sock.bind((HOST, port))

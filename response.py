@@ -8,7 +8,7 @@ class Response_Type(Enum):
     REGISTRATION_SUCCESS = 2100
     REGISTRATION_FAILED = 2101
     AES_CREATED = 2102
-    CORRECT_CRC = 2103
+    CORRECT_AND_SEND_CRC = 2103
     RECEIVED_MESSAGE = 2104
     RE_CONNECT = 2105
     RE_CONNECT_REFUSED = 2106
@@ -32,5 +32,7 @@ class Response:
 
     def packed_response(self):
         return self.packed_header + self.payload
+
+
 
 

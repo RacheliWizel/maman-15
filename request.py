@@ -42,7 +42,7 @@ class Request:
         elif self.header.code == request_type.CORRECT_CRC:
             response = request_handler.correct_CRC(self)
         elif self.header.code == request_type.INCORRECT_CRC:
-            response =  request_handler.incorrect_CRC(self)
+            response = 'no message'
         elif self.header.code == request_type.INCORRECT_CRC_FOURTH:
             response = request_handler.incorrect_CRC_fourth(self)
         return response
