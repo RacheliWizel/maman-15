@@ -116,10 +116,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\cryptopp870</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>C:\cryptopp870\x64\Output\Debug\cryptopp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -139,10 +142,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\Downloads\cryptopp_wrapper\cryptopp_wrapper\cryptopp_wrapper\AESWrapper.h" />
+    <ClInclude Include="..\..\..\..\Downloads\cryptopp_wrapper\cryptopp_wrapper\cryptopp_wrapper\Base64Wrapper.h" />
+    <ClInclude Include="..\..\..\..\Downloads\cryptopp_wrapper\cryptopp_wrapper\cryptopp_wrapper\RSAWrapper.h" />
     <ClInclude Include="handel_socket.h" />
     <ClInclude Include="protocol.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\Downloads\cryptopp_wrapper\cryptopp_wrapper\cryptopp_wrapper\AESWrapper.cpp" />
+    <ClCompile Include="..\..\..\..\Downloads\cryptopp_wrapper\cryptopp_wrapper\cryptopp_wrapper\Base64Wrapper.cpp" />
+    <ClCompile Include="..\..\..\..\Downloads\cryptopp_wrapper\cryptopp_wrapper\cryptopp_wrapper\RSAWrapper.cpp" />
     <ClCompile Include="handel_socket.cpp" />
     <ClCompile Include="ptotocol.cpp" />
   </ItemGroup>
