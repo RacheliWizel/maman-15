@@ -1,22 +1,42 @@
 #pragma once
 #include <cstdint>
-#include <sstream>
 #include <string>
 #include <vector>
+#include <stdio.h>
+#include <cstring>
+#include <cstdlib>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <iomanip>
+#include <sys/stat.h>
+#include <boost/crc.hpp>
+#include "boost/filesystem.hpp"
+#include "boost/filesystem/fstream.hpp"
+#include "Base64Wrapper.h"
+#include "RSAWrapper.h"
+#include "AESWrapper.h"
+#include "ClientHelper.h"
+
 
  // create header params
-typedef uint8_t  version_t;
-typedef uint16_t code_t;
-typedef uint32_t payloadsize_t;
+//typedef uint8_t  version_t;
+//typedef uint16_t code_t;
+//typedef uint32_t payloadsize_t;
+
+char CLIENT_VERSION = '3';
+
 
 // param's sizes
-constexpr version_t CLIENT_VERSION = 3;
+constexpr size_t    VERSION_SIZE = 1;
 constexpr size_t    CLIENT_ID_SIZE = 16;
 constexpr size_t    CLIENT_NAME_SIZE = 255;
-constexpr size_t    PUBLIC_KEY_SIZE = 160; 
-constexpr size_t	CONTENT_SIZE_SIZE = 4;
+constexpr size_t	PAYLOAD_SIZE_SIZE = 4;
+constexpr size_t	CODE_SIZE = 2;
+constexpr size_t	FILE_CONTENT_SIZE_SIZE = 4;
+constexpr size_t	FILE_NAME_SIZE = 255;
+constexpr size_t	CKSUM_SIZE = 4;
 
-int DEF_VAL = 0;
 
 enum RequestCodeEnum
 {
@@ -34,51 +54,56 @@ enum ResponseCodeEnum
 	REGISTRATION_SUCCESS = 2100,
 	REGISTRATION_FAILED = 2101,
 	AES_CREATED = 2102,
-	CORRECT_AND_SEND_CRC = 2103,
+	SEND_CRC = 2103,
 	RECEIVED_MESSAGE = 2104,
-	RE_CONNECT = 2105,
-	RE_CONNECT_REFUSED = 2106,
-	ERROR = 2107
+	SUCCESS_RE_CONNECT = 2105,
+	REFUSED_RE_CONNECT = 2106,
+	ERROR_RESPONSE = 2107
 };
 
-struct ClientID
-{
-	uint8_t uuid[CLIENT_ID_SIZE];
-	ClientID() : uuid{ DEF_VAL } {}
-
-	bool operator==(const ClientID& otherID) const {
-		for (size_t i = 0; i < CLIENT_ID_SIZE; ++i)
-			if (uuid[i] != otherID.uuid[i])
-				return false;
-		return true;
-	}
-
-	bool operator!=(const ClientID& otherID) const {
-		return !(*this == otherID);
-	}
-
-};
-
-struct RequestHeader
-{
-	ClientID       clientId;
-	const version_t version;
-	const code_t    code;
-	payloadsize_t     payloadSize;
-
-	RequestHeader(const ClientID& id, const code_t reqCode) : clientId(id), version(CLIENT_VERSION), code(reqCode), payloadSize(0) {}
-};
-
-struct ResponsHeader
-{
-	version_t version;
-	code_t    code;
-	payloadsize_t   payloadSize;
-};
-
-class request
-{
+#pragma pack(push, 1)
+struct Request
+{	
+private:
+	char clientId[CLIENT_ID_SIZE];
+	char clientVersion[VERSION_SIZE];
+	short   requestCode;
+	int  requestPayloadSize;
+	std::string requestPayload;
 public:
-
+	Request(char id[CLIENT_ID_SIZE], short reqCode, std::string payload);
+	char* getRequestClientId();
+	char* getRequestVersion();
+	short getRequestCode();
+	int getRequestPayloadSize();
+	std::string getPayload();
+	std::string convertToByts();
+	
 };
+#pragma pack(pop)
+
+
+#pragma pack(push, 1)
+struct Response
+{
+private:
+	char serverVersion[VERSION_SIZE];
+	short responseCode;
+	long responsePayloadSize;
+	std::string responsePayload;
+public:
+	Response(char* responsFromClient);
+	long getResponsePayloadSize();
+	short getResponseCode();
+	char* getServerVersion();
+	std::string getResponsePayload();
+	Request handleRequest(clientHelper client);
+};
+#pragma pack(pop)
+
+std::string genaratePublicKey();
+void writeMeFile(std::string name, std::string ID, std::string privetKey);
+
+
+
 

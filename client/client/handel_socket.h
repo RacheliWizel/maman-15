@@ -6,8 +6,9 @@
 
 using boost::asio::ip::tcp;
 using boost::asio::io_context;
+tcp::resolver resolver(io_context);
 
-constexpr size_t PACKET_SIZE = 1024;   // Better be the same on server side.
+
 
 class HandleSocket
 {
@@ -20,8 +21,7 @@ public:
 	static bool validatePort(const std::string& port);
 
 	// logic
-	bool setSocketInfo(const std::string& address, const std::string& port);
-	bool connect();
+	bool connect(char* ip, char* address);
 	void close();
 	bool receive(uint8_t* const buffer, const size_t size) const;
 	bool send(const uint8_t* const buffer, const size_t size) const;
