@@ -84,4 +84,4 @@ root/
 ## 📎 Author
 
 **Racheli Wizel**  
-[LinkedIn](https://www.linkedin.com/in/racheli-wizel1) | [GitHub](https://github.com/RacheliWizel)
+[LinkedIn](https://www.linkedin.com/in/racheli-wizel1) | [GitHub](https://github.com/RacheliWizel/secure-file-transfer)
